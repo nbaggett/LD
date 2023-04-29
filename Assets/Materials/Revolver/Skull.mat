@@ -109,6 +109,7 @@ Material:
     - _SrcBlend: 1
     - _Toon_Ramp_Offset_Point: 0.5
     - _UVSec: 0
+    - _UseNoise: 1
     - _ZWrite: 1
     m_Colors:
     - Toon_Ramp_Tint: {r: 1, g: 1, b: 1, a: 1}
