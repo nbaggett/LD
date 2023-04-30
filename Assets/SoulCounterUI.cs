@@ -25,8 +25,12 @@ public class SoulCounterUI : MonoBehaviour
         _canvasGroup.alpha = 1;
         _tween?.Kill();
         _tween = _canvasGroup.DOFade(0, 1f);
-        _audioSource.pitch = 0.7f + (0.05f * count);
         _audioSource.Play();
+    }
+
+    private void Update()
+    {
+        _audioSource.pitch = Time.timeScale * (0.7f + (0.05f * PlayerGameManager.Instance.GetNumSoulOrbsCollected()));
     }
 
     public static string ToRoman(int number)

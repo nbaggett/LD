@@ -5,13 +5,13 @@ using UnityEngine;
 public class SimpleBillboard : MonoBehaviour
 {
     private Camera Camera;
-    private void Awake()
+    private void Start()
     {
         Camera = Camera.main;
     }
 
     private void Update()
     {
-        transform.LookAt(transform.position + Camera.transform.rotation * Vector3.forward, Camera.transform.rotation * Vector3.up);
+        transform.rotation = Camera.transform.rotation;
     }
 }

@@ -56,17 +56,6 @@ public class GunController : MonoBehaviour
             _shootTimer.Set(shootInterval);
         }
 
-        if (Input.GetMouseButton(1))
-        {
-            DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 0.4f, 0.1f).SetUpdate(true);
-        }
-        else
-        {
-            DOTween.To(() => Time.timeScale, x => Time.timeScale = x, 1f, 0.1f).SetUpdate(true);
-        }
-
-        _audioSource.pitch = Time.timeScale;
-
         if (!_smokeTrailTimer)
         {
             SmokeTrail.emitting = false;

@@ -22,6 +22,7 @@ namespace KinematicCharacterController.Examples
         private Vector3 _savedGravity;
         private Quaternion _lastRotation;
 
+
         private void Start()
         {
             OnPlaygroundTeleportingZone.OnCharacterTeleport -= ControlGravity;

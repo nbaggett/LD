@@ -7,6 +7,14 @@ public class SoulOrb : MonoBehaviour
     public ParticleSystem SoulOrbCollectVFXPrefab;
     public UnityEvent OnCollect;
 
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.time = Random.Range(0f, audioSource.clip.length);
+    }
+
     public void Collect()
     {
         var vfx = Instantiate(SoulOrbVFXPrefab, transform.position, Quaternion.identity);

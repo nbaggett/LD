@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private const string HorizontalInput = "Horizontal";
     private const string VerticalInput = "Vertical";
 
+    public bool CanMove = true;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -27,6 +29,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!CanMove) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -37,6 +41,8 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!CanMove) return;
+
         // Handle rotating the camera along with physics movers
         if (CharacterCamera.RotateWithPhysicsMover && Character.Motor.AttachedRigidbody != null)
         {
