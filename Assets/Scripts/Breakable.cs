@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class Breakable : MonoBehaviour
 {
     public GameObject BrokenObjectRef;
+    public UnityEvent OnBreak;
 
     public void Break()
     {
@@ -19,5 +21,6 @@ public class Breakable : MonoBehaviour
         }
         Destroy(gameObject);
         Destroy(instantiated, 5f);
+        OnBreak.Invoke();
     }
 }

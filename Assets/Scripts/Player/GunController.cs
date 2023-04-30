@@ -90,6 +90,11 @@ public class GunController : MonoBehaviour
             {
                 breakable.Break();
             }
+
+            if (hit.collider.gameObject.TryGetComponent(out SoulOrb soulOrb))
+            {
+                soulOrb.Collect();
+            }
         }
         else
         {
