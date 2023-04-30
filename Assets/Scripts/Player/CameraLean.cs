@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
@@ -12,12 +10,21 @@ public class CameraLean : MonoBehaviour
     private PlayerCharacterInputs _playerCharacterInputs;
     [SerializeField] private PlayerCharacterController _playerCharacterController;
 
+    [Header("Head Bob")]
+    public bool EnableHeadBob = true;
+    [SerializeField, Range(0, 0.1f)] private float _amplitude = 0.015f;
+    [SerializeField, Range(0, 30f)] private float _frequency = 10.0f;
+    private float _toggleSpeed = 3.0f;
+    private Vector3 _startPos;
+    public Transform HeadBobTransform;
+
     private Tween _landTween;
 
     private void Awake()
     {
         _playerCharacterController.OnJump.AddListener(Event_OnJump);
         _playerCharacterController.OnLand.AddListener(Event_OnLand);
+        _startPos = HeadBobTransform.localPosition;
     }
     public void SetInputs(PlayerCharacterInputs playerCharacterInputs)
     {
@@ -29,6 +36,12 @@ public class CameraLean : MonoBehaviour
         Vector2 moveInput = new Vector2(_playerCharacterInputs.MoveAxisRight, _playerCharacterInputs.MoveAxisForward);
         moveInput.y = Mathf.Clamp(moveInput.y, -1f, 0f);
         transform.DOLocalRotate(new Vector3(moveInput.y * LeanAmount, 0, -moveInput.x * LeanAmount), LeanSpeed).SetEase(LeanEase);
+
+        if (EnableHeadBob)
+        {
+            CheckMotion();
+            ResetPosition();
+        }
     }
 
     private void Event_OnLand()
@@ -42,4 +55,32 @@ public class CameraLean : MonoBehaviour
 
     }
 
+    private Vector3 FootstepMotion()
+    {
+        Vector3 pos = Vector3.zero;
+        pos.y = Mathf.Sin(Time.time * _frequency) * _amplitude;
+        //pos.x = Mathf.Cos(Time.time * _frequency / 2) * _amplitude * 2;
+        return pos;
+    }
+
+    private void CheckMotion()
+    {
+        Vector3 velocity = _playerCharacterController.Motor.Velocity;
+        float speed = new Vector3(velocity.x, 0, velocity.z).magnitude;
+        if (speed < _toggleSpeed) return;
+        if (!_playerCharacterController.Motor.GroundingStatus.FoundAnyGround) return;
+
+        PlayMotion(FootstepMotion());
+    }
+
+    private void PlayMotion(Vector3 motion)
+    {
+        HeadBobTransform.localPosition += motion;
+    }
+
+    private void ResetPosition()
+    {
+        if (HeadBobTransform.localPosition == _startPos) return;
+        HeadBobTransform.localPosition = Vector3.Lerp(HeadBobTransform.localPosition, _startPos, Time.deltaTime);
+    }
 }

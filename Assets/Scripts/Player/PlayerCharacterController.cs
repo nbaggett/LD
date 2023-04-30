@@ -73,6 +73,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
     [Header("Events")]
     public UnityEvent OnJump;
     public UnityEvent OnLand;
+    public UnityEvent OnLeaveGround;
 
     public CharacterState CurrentCharacterState { get; private set; }
 
@@ -467,6 +468,7 @@ public class PlayerCharacterController : MonoBehaviour, ICharacterController
             {
                 OnJump?.Invoke();
             }
+            OnLeaveGround?.Invoke();
         }
     }
 

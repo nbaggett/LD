@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using KinematicCharacterController;
-using KinematicCharacterController.Examples;
 
 public class Player : MonoBehaviour
 {
     public PlayerCharacterController Character;
     public PlayerCamera CharacterCamera;
-
     public CameraLean CameraLean;
 
     private const string MouseXInput = "Mouse X";
@@ -89,8 +85,8 @@ public class Player : MonoBehaviour
         characterInputs.MoveAxisRight = Input.GetAxisRaw(HorizontalInput);
         characterInputs.CameraRotation = CharacterCamera.Transform.rotation;
         characterInputs.JumpDown = Input.GetKeyDown(KeyCode.Space);
-        characterInputs.CrouchDown = Input.GetKeyDown(KeyCode.C);
-        characterInputs.CrouchUp = Input.GetKeyUp(KeyCode.C);
+        //characterInputs.CrouchDown = Input.GetKeyDown(KeyCode.C);
+        //characterInputs.CrouchUp = Input.GetKeyUp(KeyCode.C);
 
         // Apply inputs to character
         Character.SetInputs(ref characterInputs);
