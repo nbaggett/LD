@@ -20,8 +20,13 @@ public class CameraLean : MonoBehaviour
 
     private Tween _landTween;
 
+    public AudioClip FootstepClip;
+    private AudioSource _audioSource;
+    private BoolTimer _footstepTimer;
+
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         _playerCharacterController.OnJump.AddListener(Event_OnJump);
         _playerCharacterController.OnLand.AddListener(Event_OnLand);
         _startPos = HeadBobTransform.localPosition;
@@ -59,6 +64,14 @@ public class CameraLean : MonoBehaviour
     {
         Vector3 pos = Vector3.zero;
         pos.y = Mathf.Sin(Time.time * _frequency) * _amplitude;
+
+        if (!_footstepTimer)
+        {
+            Debug.Log("FOOTSTEP");
+            _footstepTimer.Set(0.25f);
+            _audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            _audioSource.PlayOneShot(FootstepClip);
+        }
         //pos.x = Mathf.Cos(Time.time * _frequency / 2) * _amplitude * 2;
         return pos;
     }

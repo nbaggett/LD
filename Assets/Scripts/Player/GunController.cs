@@ -10,16 +10,21 @@ public class GunController : MonoBehaviour
 
     public Transform MuzzleTransform;
     public BulletTrail BulletTrailPrefab;
+    public TrailRenderer SmokeTrail;
 
     public PlayerCharacterController PlayerCharacterController;
     public MuzzleFlash muzzleFlash;
     public AudioClip ShootAudioClip;
     public AudioClip ReloadAudioClip;
 
+    public GameObject HitFXPrefab;
+
     private BoolTimer _shootTimer;
 
     private Camera _camera;
     public AudioSource _audioSource;
+
+    private BoolTimer _smokeTrailTimer;
 
     private void Awake()
     {
@@ -61,6 +66,11 @@ public class GunController : MonoBehaviour
         }
 
         _audioSource.pitch = Time.timeScale;
+
+        if (!_smokeTrailTimer)
+        {
+            SmokeTrail.emitting = false;
+        }
     }
 
     public void Shoot()
@@ -72,6 +82,14 @@ public class GunController : MonoBehaviour
         {
             BulletTrail.Initialize(MuzzleTransform.position, hit.point);
             Debug.DrawLine(MuzzleTransform.position, hit.point, Color.red, 5f);
+
+            var hitFX = Instantiate(HitFXPrefab, hit.point, Quaternion.FromToRotation(transform.up, hit.normal));
+            Destroy(hitFX, 5f);
+
+            if (hit.collider.gameObject.TryGetComponent(out Breakable breakable))
+            {
+                breakable.Break();
+            }
         }
         else
         {
@@ -83,6 +101,9 @@ public class GunController : MonoBehaviour
         _audioSource.clip = ShootAudioClip;
         _audioSource.Play();
         StartCoroutine(PlayReloadSound());
+
+        SmokeTrail.emitting = true;
+        _smokeTrailTimer.Set(1f);
 
         Destroy(BulletTrail.gameObject, 5f);
 

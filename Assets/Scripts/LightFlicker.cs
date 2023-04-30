@@ -16,8 +16,8 @@ public class LightFlicker : MonoBehaviour
     {
         if (!_flickerTimer)
         {
-            _light.intensity = Random.Range(0.5f, 1f);
-            _flickerTimer.Set(Random.Range(0.2f, 0.3f));
+            _light.intensity = Random.Range(0.2f, 0.3f);
+            _flickerTimer.Set(Random.Range(0.1f, 0.15f));
         }
     }
 }
