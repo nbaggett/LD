@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    renderPassEvent: 550
-    screenHeight: 360
+    renderPassEvent: 600
+    screenHeight: 500
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

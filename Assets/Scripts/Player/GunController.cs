@@ -26,6 +26,8 @@ public class GunController : MonoBehaviour
 
     private BoolTimer _smokeTrailTimer;
 
+    public Animator anim;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -50,6 +52,13 @@ public class GunController : MonoBehaviour
 
     private void Update()
     {
+        if (!PlayerGameManager.Instance.IntroCinematicComplete || PauseMenu.IsPaused) return;
+
+        if (anim.enabled == false)
+        {
+            anim.enabled = true;
+        }
+
         if (Input.GetMouseButtonDown(0) && !_shootTimer)
         {
             Shoot();

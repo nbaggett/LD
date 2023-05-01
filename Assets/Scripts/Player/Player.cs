@@ -13,12 +13,10 @@ public class Player : MonoBehaviour
     private const string HorizontalInput = "Horizontal";
     private const string VerticalInput = "Vertical";
 
-    public bool CanMove = true;
+    public bool CanMove = false;
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
         // Tell camera to follow transform
         CharacterCamera.SetFollowTransform(Character.CameraFollowPoint);
 
@@ -29,11 +27,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (!CanMove) return;
-
-        if (Input.GetMouseButtonDown(0))
+        if (!CanMove || PauseMenu.IsPaused)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            PlayerCharacterInputs characterInputs = new PlayerCharacterInputs();
+            Character.SetInputs(ref characterInputs);
+            return;
         }
 
         HandleCharacterInput();
@@ -41,7 +39,7 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!CanMove) return;
+        if (!CanMove || PauseMenu.IsPaused) return;
 
         // Handle rotating the camera along with physics movers
         if (CharacterCamera.RotateWithPhysicsMover && Character.Motor.AttachedRigidbody != null)

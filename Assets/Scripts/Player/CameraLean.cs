@@ -38,6 +38,8 @@ public class CameraLean : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!PlayerGameManager.Instance.IntroCinematicComplete || PauseMenu.IsPaused) return;
+
         Vector2 moveInput = new Vector2(_playerCharacterInputs.MoveAxisRight, _playerCharacterInputs.MoveAxisForward);
         moveInput.y = Mathf.Clamp(moveInput.y, -1f, 0f);
         transform.DOLocalRotate(new Vector3(moveInput.y * LeanAmount, 0, -moveInput.x * LeanAmount), LeanSpeed).SetEase(LeanEase);
@@ -51,6 +53,7 @@ public class CameraLean : MonoBehaviour
 
     private void Event_OnLand()
     {
+        if (!PlayerGameManager.Instance.IntroCinematicComplete || PauseMenu.IsPaused) return;
         Vector3 targetPosition = new Vector3(0, -0.3f, 0);
         _landTween = transform.DOLocalMove(targetPosition, 0.1f).OnComplete(() => transform.DOLocalMove(Vector3.zero, 0.2f));
     }
@@ -67,7 +70,6 @@ public class CameraLean : MonoBehaviour
 
         if (!_footstepTimer)
         {
-            Debug.Log("FOOTSTEP");
             _footstepTimer.Set(0.25f);
             _audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
             _audioSource.PlayOneShot(FootstepClip);

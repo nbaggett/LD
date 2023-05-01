@@ -18,6 +18,7 @@ public class WeaponLean : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (!PlayerGameManager.Instance.IntroCinematicComplete || PauseMenu.IsPaused) return;
         TiltSway();
     }
 
